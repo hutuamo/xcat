@@ -37,12 +37,21 @@ fn main() {
 
     match format_kind {
         FormatKind::Image => {
+            // 图片：直接模式
             if let Err(e) = format::image::display(path) {
                 eprintln!("错误: {} - {}", e, path.display());
                 process::exit(1);
             }
         }
+        FormatKind::Text => {
+            // 纯文本：直接模式
+            if let Err(e) = format::text::display(path) {
+                eprintln!("错误: {} - {}", e, path.display());
+                process::exit(1);
+            }
+        }
         FormatKind::Document(formatter) => {
+            // Markdown/PDF：预览模式
             let doc = match formatter.parse(path) {
                 Ok(doc) => doc,
                 Err(e) => {
