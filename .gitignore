@@ -1,0 +1,12 @@
+/target
+.vscode/
+test.md
+*.jpeg
+*.jpg
+*.png
+*.gif
+*.bmp
+*.webp
+*.tiff
+*.ico
+*.ini
