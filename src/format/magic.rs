@@ -54,21 +54,6 @@ impl FileSignature {
         }
     }
 
-    /// 创建带掩码的签名
-    const fn with_mask(
-        magic: &'static [u8],
-        offset: usize,
-        mask: &'static [u8],
-        format: DetectedFormat,
-    ) -> Self {
-        Self {
-            magic,
-            offset,
-            mask: Some(mask),
-            format,
-        }
-    }
-
     /// 检查数据是否匹配此签名
     fn matches(&self, data: &[u8]) -> bool {
         let start = self.offset;
