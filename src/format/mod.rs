@@ -1,6 +1,7 @@
 pub mod image;
 pub mod magic;
 pub mod markdown;
+pub mod pdf;
 
 use crate::document::Document;
 use std::fmt;
@@ -60,9 +61,7 @@ pub fn detect_format(path: &Path) -> Option<FormatKind> {
         return match detected {
             magic::DetectedFormat::Image(_) => Some(FormatKind::Image),
             magic::DetectedFormat::Document(magic::DocumentFormat::Pdf) => {
-                // PDF 暂不支持，返回 None
-                // 未来可以添加 PDF 格式处理器
-                None
+                Some(FormatKind::Document(Box::new(pdf::PdfFormat)))
             }
         };
     }
@@ -81,6 +80,7 @@ fn detect_format_by_extension(path: &Path) -> Option<FormatKind> {
 
     let formats: Vec<Box<dyn FileFormat>> = vec![
         Box::new(markdown::MarkdownFormat),
+        Box::new(pdf::PdfFormat),
     ];
 
     formats
