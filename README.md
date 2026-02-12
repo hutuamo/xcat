@@ -1,11 +1,13 @@
 # xcat
 
-终端文件预览工具，支持 Markdown 渲染和图片显示。
+终端文件预览工具，支持 Markdown、PDF、图片等多种格式。
 
 ## 核心功能
 
-- **Markdown 预览** — 在终端中渲染标题、粗体、斜体、代码块、列表、引用、表格等元素，支持 GFM 规范
-- **图片显示** — 支持 PNG、JPEG、GIF、BMP、WebP、TIFF、ICO 格式
+- **两种打开模式** — 预览模式（模态 Vim 导航）和直接模式（直接输出到终端）
+- **Markdown 预览** — 渲染标题、粗体、斜体、代码块、列表、引用、表格等元素，支持 GFM 规范（预览模式）
+- **PDF 预览** — 按页提取文本并显示，页间分页标记（预览模式）
+- **图片显示** — 支持 PNG、JPEG、GIF、BMP、WebP、TIFF、ICO 格式（直接模式）
 - **Vim 风格导航** — `hjkl` 移动光标，`d/u` 翻页，`g/G` 跳转首尾，`q` 退出
 - **智能格式识别** — 优先通过文件魔数（magic number）检测格式，扩展名作为回退
 - **可扩展架构** — 通过 `FileFormat` trait 轻松添加新格式支持
@@ -20,7 +22,9 @@ cargo build --release
 cargo run --release -- <file>
 
 # 示例
-cargo run --release -- README.md
+cargo run --release -- README.md    # Markdown 预览模式
+cargo run --release -- document.pdf # PDF 预览模式
+cargo run --release -- photo.png    # 图片直接模式
 ```
 
 ## 依赖
@@ -30,6 +34,7 @@ cargo run --release -- README.md
 | crossterm | 终端原始模式与事件处理 |
 | ratatui | TUI 渲染框架 |
 | pulldown-cmark | GFM Markdown 解析 |
+| pdf-extract | PDF 文本提取 |
 | viuer | 终端图片显示 |
 | unicode-width | CJK 宽字符支持 |
 
@@ -45,10 +50,11 @@ src/
     ├── mod.rs        # FileFormat trait 与格式检测
     ├── magic.rs      # 文件魔数签名识别
     ├── markdown.rs   # Markdown 解析器
+    ├── pdf.rs        # PDF 文本提取
     └── image.rs      # 图片显示
 ```
 
-## 键位
+## 键位（预览模式）
 
 | 键 | 功能 |
 |---|---|
